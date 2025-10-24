@@ -12,5 +12,5 @@ class Card(GameObject) :
     def value(self) -> tuple : 
         return ((self._number,self._color))
     
-    
+
                 

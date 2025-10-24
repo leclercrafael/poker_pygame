@@ -5,15 +5,15 @@ import typing
 
 class GameObject(abc.ABC,Pix) :
     """The goal of this class is to define some methods that every GameObject's class
-    need to contain"""
+    needs to contain"""
 
     def __init__(self) -> None :
         """Object initialization"""
+        super().__init__() 
 
-        
         pass
 
-    @property
+
     @abc.abstractmethod
     def draw(self) -> typing.Iterator[Pix]: 
         """Draw the object"""
