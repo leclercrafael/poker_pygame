@@ -9,6 +9,8 @@ class GameObject(abc.ABC,Pix) :
 
     def __init__(self) -> None :
         """Object initialization"""
+
+        
         pass
 
     @property
