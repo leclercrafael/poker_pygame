@@ -2,8 +2,6 @@ Creating a poker game using pygame
 
 This project is made by Pierre-Guillaume Petitmangin and Rafaël Leclerc, both student at Mines Paris PSL.
 
-Absolument ! Voici un fichier `README.md` complet, propre et bien structuré qui résume ton projet de poker en POO. Il est prêt à être copié-collé sur GitHub.
-
 ---
 
 # ♠️ Projets Pygame : Poker Orienté Objet (POO) ♣️
