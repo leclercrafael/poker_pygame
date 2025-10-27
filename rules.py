@@ -8,5 +8,6 @@ class Rules:
         return value in values
     
     @staticmethod
-    def hand_comparison(hand1, hand2, cards):
+    def hand_comparison(hand1 : list, hand2 : list, cards : list) -> list :
+        #
 
