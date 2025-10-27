@@ -27,6 +27,16 @@ class Player(Hand,Flop,Pot) :
     def is_checking(self, B : bool) -> bool : 
         """Checking if the player checks or not"""
         return(B)
+
+    def is_following(self, B : bool) -> bool :
+        '''Checking if the player is following'''
+        return(B)
+    
+    def following_price(self, price : float) -> tuple :
+        '''Taking the following off the stack'''
+
+        self._stack -= price
+        return()
     
     def best_combinaison(self) -> int :
         pass
