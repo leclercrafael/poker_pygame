@@ -1,0 +1,4 @@
+TITLE_STRING = 'Poker Game'
+FPS = 120
+HEIGHT = 1080
+WIDTH = 1920
