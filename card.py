@@ -10,7 +10,10 @@ class Card(GameObject) :
 
     @property
     def value(self) -> tuple : 
+        """Value of the card"""
         return ((self._number,self._color))
+    
+
     
 
                 
