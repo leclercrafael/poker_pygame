@@ -8,8 +8,8 @@ class Combinaisons ():
         p = 0
         for i in range (len(self._hand)):
             card = self._hand.pop()
-            for j in range(len(self._hand))
-                
+            for j in range(len(self._hand)) :
+
 
 
             for card in self

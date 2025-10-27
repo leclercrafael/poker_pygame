@@ -2,7 +2,7 @@ from .hand import Hand
 from .pot import Pot
 from .flop import Flop
 
-class Player(Hand,Flop) :
+class Player(Hand,Flop,Pot) :
 
     def __init__(self,name : str ,stack : int) -> None :
         """Initializing the Player """
@@ -29,6 +29,17 @@ class Player(Hand,Flop) :
         return(B)
     
     def best_combinaison(self) -> int :
+        pass
+
+
+    def is_winning(self, B : bool) -> bool :
+        """Checking if hte player wins or not"""
+        return(B)
+    
+    def win(self) -> None :
+        """Winning and adding the pot to the stack"""
+        self._stack += self._value
+
         
 
 
