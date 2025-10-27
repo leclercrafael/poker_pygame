@@ -29,8 +29,9 @@ class Player(Hand,Flop) :
         return(B)
     
     def best_combinaison(self) -> int :
-        """Calculating the sum of Hand + Flop"""
         
+
+
     
 
 
