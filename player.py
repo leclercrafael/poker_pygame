@@ -1,14 +1,18 @@
 from .hand import Hand 
 from .pot import Pot
 from .flop import Flop
+from .game_object import GameObject
 
-class Player(Hand,Flop,Pot) :
+class Player(GameObject):
 
-    def __init__(self,name : str ,stack : int) -> None :
+    def __init__(self,name : str ,stack : int, is_ia : bool = False) -> None :
         """Initializing the Player """
-        super().__init__()
         self._name = name
         self._stack = stack
+        self.is_ia = is_ia
+
+        self.main = []
+        self.has_folded = False
 
     def fold(self,B : bool) -> bool:
         """Checking if the player folds or not"""
