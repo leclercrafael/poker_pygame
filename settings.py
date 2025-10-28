@@ -29,3 +29,6 @@ value_dict = {
   '8': 8,
   '9': 9
 }
+
+VALEURS = [i for i in range(2,15)]
+COULEURS = ['Coeur', 'Pique', 'Carreau', 'Trèfle']
