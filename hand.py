@@ -1,4 +1,7 @@
-from .card import Card
+#from .card import Card
+import itertools, os, pygame, random
+from settings import *
+
 
 class Hand () :
 
