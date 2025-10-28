@@ -1,8 +1,7 @@
-from .hand import Hand 
 from .pot import Pot
 from .flop import Flop
 
-class Player(Hand,Flop,Pot) :
+class Player(Flop,Pot) :
 
     def __init__(self,name : str ,stack : int) -> None :
         """Initializing the Player """

@@ -15,7 +15,7 @@ class GameObject(abc.ABC,Pix) :
 
 
     @abc.abstractmethod
-    def draw(self) -> typing.Iterator[Pix]: 
+    def draw(self) -> None: 
         """Draw the object"""
         raise NotImplementedError
 
