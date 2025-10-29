@@ -18,7 +18,7 @@ class Game(Settings):
         self.card1 = Card(
                 screen=self.screen, 
                 d_pos=d_pos, 
-                position=0, 
+                position='1', 
                 size=100,         
                 value="10", 
                 color="pique" # Chaîne
@@ -26,11 +26,12 @@ class Game(Settings):
         self.card2 = Card(
                 screen=self.screen, 
                 d_pos=d_pos, 
-                position=1, 
+                position='2', 
                 size=100,         
                 value="6", 
                 color="coeur" # Chaîne
                 )
+        self.SPACE = False
         #self.hand = Hand()
 
 
@@ -54,8 +55,8 @@ class Game(Settings):
                             mouse_down = False
                             #self.hand = Hand()
                 if event.type==pygame.KEYDOWN and event.key==pygame.K_SPACE:
-                    self.card1.draw()
-                    self.card2.draw()
+                    self.SPACE = True
+                
                     
 
             # Time variables
@@ -63,6 +64,9 @@ class Game(Settings):
             self.start_time = pygame.time.get_ticks()
             pygame.display.update()
             self.screen.fill(self.BG_COLOR)
+            if self.SPACE :
+                    self.card1.draw()
+                    self.card2.draw()
             #self.hand.update()
             self.clock.tick(self.FPS)
 
