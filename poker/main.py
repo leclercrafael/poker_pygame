@@ -1,6 +1,6 @@
-from .settings import Settings
+from settings import Settings
 import ctypes, pygame, sys
-from .card import Card
+from card import Card
 
 d_pos = { "1" : [50,100], "2" : [110,100]}
 
