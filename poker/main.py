@@ -1,6 +1,8 @@
 from settings import Settings
 import ctypes, pygame, sys
 from card import Card
+from deck import Deck
+
 
 d_pos = { "1" : [50,100], "2" : [110,100]}
 
@@ -14,15 +16,9 @@ class Game(Settings):
         self.screen = pygame.display.set_mode((self.WIDTH,self.HEIGHT))
         pygame.display.set_caption(self.TITLE_STRING)
         self.clock = pygame.time.Clock()
+        self.deck = Deck().shuffle()
 
-        self.card1 = Card(
-                screen=self.screen, 
-                d_pos=d_pos, 
-                position='1', 
-                size=100,         
-                value="10", 
-                color="pique" # Chaîne
-                )
+        self.card1 = self.deck.draw_card()
         self.card2 = Card(
                 screen=self.screen, 
                 d_pos=d_pos, 
