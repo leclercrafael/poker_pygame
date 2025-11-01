@@ -1,7 +1,7 @@
-from .pot import Pot
-from .flop import Flop
-from .game_object import GameObject
-from .card import Card
+from pot import Pot
+from flop import Flop
+from game_object import GameObject
+from card import Card
 
 class Player(GameObject):
 
@@ -94,3 +94,13 @@ class Player(GameObject):
         if amount > 0:
             self._stack += amount
             print(f"{self._name} wins {amount}!")
+
+    def draw(self):
+
+        # On vérifie si les cartes ont bien été configurées (avec set_display)
+        if not self.main:
+            return # Ne rien dessiner si la main est vide
+
+        # On parcourt les cartes du joueur et on leur demande de se dessiner
+        for card in self.main:
+            card.draw()

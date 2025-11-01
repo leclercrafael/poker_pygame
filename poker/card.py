@@ -14,7 +14,7 @@ SUIT_MAP = {
     "coeur":   {"symbol": "♥", "color_rgb": RED},
     "carreau": {"symbol": "♦", "color_rgb": RED},
     "pique":   {"symbol": "♠", "color_rgb": BLACK},
-    "trefle":  {"symbol": "♣", "color_rgb": BLACK}
+    "trèfle":  {"symbol": "♣", "color_rgb": BLACK}
 }
 
 
@@ -23,7 +23,7 @@ class Card(GameObject) :
     def __init__(self, value : int, color : str) -> None :
         """Initialize the Object"""
         super().__init__()  
-        self._value = value   
+        self._value = str(value)
         self._color_name = color.lower()
         self.est_retournee = False
 
@@ -47,7 +47,7 @@ class Card(GameObject) :
         self.rect = pygame.Rect(self._x, self._y, self.width, self.height) # Création d'un rect
 
        
-    def set_display(self, screen: pygame.Surface, x: int, y: int, size: int):
+    def set_display(self, screen: pygame.Surface, x: int, y: int, size: int) -> None:
         """Configure les attributs Pygame (écran, position, taille, polices)."""
         self._screen = screen
         self._x = x
