@@ -13,6 +13,8 @@ class Dealer(GameObject):
         self.maximum_bet = 0
         self.flop = None
         self.game_state = 'preflop'
+        self.current_player_index=0
+        self.betting_round_active = True
     
     def add_player(self, player : Player) -> None:
         if player not in self.players:

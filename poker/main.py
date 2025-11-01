@@ -57,8 +57,21 @@ class Game(Settings):
             card.set_display(screen=self.screen, x=pos[0], y=pos[1], size=120)
             # On ne les retourne PAS ! Elles s'afficheront face cachée.
 
-        # On garde la logique de la touche ESPACE
-        self.SPACE = False 
+
+        #UI
+
+        self.bouton_fold_rect = pygame.Rect(500, 800, 200, 70)
+        self.bouton_check_rect = pygame.Rect(750, 800, 200, 70)
+        self.bouton_call_rect = pygame.Rect(1000, 800, 200, 70)
+        self.bouton_raise_rect = pygame.Rect(1250, 800, 200, 70)
+
+
+        try:
+            # Assure-toi que cette ligne est présente !
+            self.font_bouton = pygame.font.SysFont('arial', 30, bold=True)
+        except pygame.error:
+            self.font_bouton = pygame.font.Font(None, 36)
+
 
     def run(self):
         self.start_time = pygame.time.get_ticks()
@@ -69,32 +82,62 @@ class Game(Settings):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.SPACE = True
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+
+                    if self.dealer.game_state == 'preflop' and self.dealer.current_player_index==0:
+                        if self.bouton_fold_rect.collidepoint(event.pos):
+                            print("CLIC SUR SE COUCHER !")
+
             
             # --- 2. GESTION DU TEMPS ---
             self.delta_time = (pygame.time.get_ticks() - self.start_time) / 1000
             self.start_time = pygame.time.get_ticks()
             
-            # --- 3. LOGIQUE DE DESSIN ---
+# --- 4. LOGIQUE DE DESSIN ---
             
             # Étape A: EFFACER
             self.screen.fill(self.BG_COLOR)
             
             # Étape B: DESSINER
-            if self.SPACE:
-                # On demande aux JOUEURS de se dessiner
-                self.joueur_humain.draw()
-                self.joueur_ia.draw()
-                
-                # Plus tard, on ajoutera :
-                # self.dealer.draw() # Pour dessiner le pot, le flop, etc.
+            self.joueur_humain.draw()
+            self.joueur_ia.draw()
+            
+            # --- C'est ici que tu dessineras les boutons et le pot ---
+            self.draw_ui() # On appelle notre nouvelle fonction de dessin
             
             # Étape C: MONTRER
             pygame.display.update()
             
-            # --- 4. CONTRÔLE DU FPS ---
+            # --- 5. CONTRÔLE DU FPS ---
             self.clock.tick(self.FPS)
+
+
+    def draw_ui(self):
+            """Dessine tous les éléments de l'interface (boutons, pot, etc.)."""
+            
+            # --- Dessin du bouton SE COUCHER ---
+            pygame.draw.rect(self.screen, (200, 40, 40), self.bouton_fold_rect, border_radius=10)
+            texte_surf_fold = self.font_bouton.render('FOLD', True, (255, 255, 255))
+            texte_rect_fold = texte_surf_fold.get_rect(center=self.bouton_fold_rect.center)
+            self.screen.blit(texte_surf_fold, texte_rect_fold)
+
+            pygame.draw.rect(self.screen, (200, 40, 40), self.bouton_check_rect, border_radius=10)
+            texte_surf_check = self.font_bouton.render('CHECK', True, (255, 255, 255))
+            texte_rect_check = texte_surf_check.get_rect(center=self.bouton_check_rect.center)
+            self.screen.blit(texte_surf_check, texte_rect_check)
+
+            pygame.draw.rect(self.screen, (200, 40, 40), self.bouton_call_rect, border_radius=10)
+            texte_surf_call = self.font_bouton.render('CALL', True, (255, 255, 255))
+            texte_rect_call = texte_surf_call.get_rect(center=self.bouton_call_rect.center)
+            self.screen.blit(texte_surf_call, texte_rect_call)
+
+            pygame.draw.rect(self.screen, (200, 40, 40), self.bouton_raise_rect, border_radius=10)
+            texte_surf_raise = self.font_bouton.render('RAISE', True, (255, 255, 255))
+            texte_rect_raise= texte_surf_raise.get_rect(center=self.bouton_raise_rect.center)
+            self.screen.blit(texte_surf_raise, texte_rect_raise)
+
+            # --- (Plus tard, tu ajouteras les boutons CHECK et RAISE ici) ---
 
 if __name__ == '__main__':
     game = Game()

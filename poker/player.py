@@ -5,7 +5,7 @@ from card import Card
 
 class Player(GameObject):
 
-    def __init__(self,name : str ,stack : int, is_ia : bool = False) -> None :
+    def __init__(self,name : str, stack : int, is_ia : bool = False) -> None :
         """Initializing the Player """
         super().__init__()
         self._name = name
