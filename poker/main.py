@@ -64,6 +64,8 @@ class Game(Settings):
         self.color_active = pygame.Color('dodgerblue2')
         self.color_inactive = pygame.Color('lightgray')
         self.input_box_color = self.color_inactive
+        self.font = pygame.font.SysFont('Arial', 30)
+        self.small_font = pygame.font.SysFont('Arial', 24)
 
 
         try:
@@ -114,7 +116,7 @@ class Game(Settings):
                         print(f"ACTION: RELANCE VALIDÉE de : {self.raise_input_text}")
                         #
                         # Appelez votre logique de jeu ici avec le montant
-                        # self.player_raise(int(self.raise_input_text))
+                        self.joueur_humain.raise_bet(int(self.raise_input_text))
                         #
                         self.is_raising = False
                         self.input_box_color = self.color_inactive
