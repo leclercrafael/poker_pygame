@@ -60,7 +60,7 @@ class Game(Settings):
         self.is_raising = False      # État : sommes-nous en train de saisir une relance ?
         self.raise_input_text = ""   # Le texte en cours de saisie
         # Un rectangle pour la zone de saisie
-        self.raise_input_rect = pygame.Rect(300, 450, 140, 40) 
+        self.raise_input_rect = pygame.Rect(750, 100, 100, 40) 
         self.color_active = pygame.Color('dodgerblue2')
         self.color_inactive = pygame.Color('lightgray')
         self.input_box_color = self.color_inactive
@@ -156,11 +156,11 @@ class Game(Settings):
                 text_surface = self.small_font.render(self.raise_input_text, True, (255, 255, 255))
                 
                 # Affiche le texte (avec un petit padding)
-                self.screen.blit(text_surface, (self.raise_input_rect.x + 5, self.raise_input_rect.y + 5))
+                self.screen.blit(text_surface, (self.raise_input_rect.x + 20, self.raise_input_rect.y + 5))
                 
                 # (Optionnel) Affiche un label
-                label = self.small_font.render("Montant:", True, (255, 255, 255))
-                self.screen.blit(label, (self.raise_input_rect.x - 80, self.raise_input_rect.y + 5))
+                label = self.small_font.render("Montant : ", True, (255, 255, 255))
+                self.screen.blit(label, (self.raise_input_rect.x - 120, self.raise_input_rect.y + 5))
             
             # Étape C: MONTRER
             pygame.display.update()
