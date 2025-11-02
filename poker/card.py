@@ -1,8 +1,8 @@
-from game_object import GameObject
+from .game_object import GameObject
 import typing
 import pygame
 import sys
-from settings import Settings
+from .settings import Settings
 
 # --- Définitions globales ---
 WHITE = (255, 255, 255)

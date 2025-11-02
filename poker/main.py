@@ -1,11 +1,11 @@
 # Fichier main.py
 
-from settings import Settings
+from .settings import Settings
 import ctypes, pygame, sys
 # from card import Card # Plus besoin d'importer Card ici
 # from deck import Deck # Plus besoin d'importer Deck ici
-from dealer import Dealer
-from player import Player # <-- AJOUTER L'IMPORT DU JOUEUR
+from .dealer import Dealer
+from .player import Player # <-- AJOUTER L'IMPORT DU JOUEUR
 
 # Dictionnaire des positions pour les mains
 # On le rend plus descriptif
@@ -66,6 +66,16 @@ class Game(Settings):
         self.bouton_raise_rect = pygame.Rect(1250, 800, 200, 70)
 
 
+# --- Variables pour la saisie de la relance ---
+        self.is_raising = False      # État : sommes-nous en train de saisir une relance ?
+        self.raise_input_text = ""   # Le texte en cours de saisie
+        # Un rectangle pour la zone de saisie
+        self.raise_input_rect = pygame.Rect(300, 450, 140, 40) 
+        self.color_active = pygame.Color('dodgerblue2')
+        self.color_inactive = pygame.Color('lightgray')
+        self.input_box_color = self.color_inactive
+
+
         try:
             # Assure-toi que cette ligne est présente !
             self.font_bouton = pygame.font.SysFont('arial', 30, bold=True)
@@ -88,6 +98,51 @@ class Game(Settings):
                     if self.dealer.game_state == 'preflop' and self.dealer.current_player_index==0:
                         if self.bouton_fold_rect.collidepoint(event.pos):
                             print("CLIC SUR SE COUCHER !")
+                            self.joueur_humain.fold()
+
+                            #NOUVELLE MAIN À IMPLEMENTER
+                            
+                        elif self.bouton_check_rect.collidepoint(event.pos):
+                            self.joueur_humain.check()
+                            self.dealer.current_player_index = 1
+                            
+                        elif self.bouton_raise_rect.collidepoint(event.pos):
+                            print("CLIC SUR MISER !")
+                            # On active le mode saisie !
+                            self.is_raising = True
+                            self.raise_input_text = "" # On réinitialise le texte
+                            self.input_box_color = self.color_active # On change la couleur
+
+                            self.dealer.current_player_index = 1
+                            
+                        # Pour l'instant on fait toujours commencer le joueur 1 i.e. le héros 
+                        # À implémenter plus tard une méthode pour faire commencer l'IA
+
+
+
+                if event.type == pygame.KEYDOWN and self.is_raising:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                        # L'utilisateur appuie sur ENTRÉE
+                        print(f"ACTION: RELANCE VALIDÉE de : {self.raise_input_text}")
+                        #
+                        # Appelez votre logique de jeu ici avec le montant
+                        # self.player_raise(int(self.raise_input_text))
+                        #
+                        self.is_raising = False
+                        self.input_box_color = self.color_inactive
+                        
+                    elif event.key == pygame.K_BACKSPACE:
+                        # L'utilisateur appuie sur Retour Arrière
+                        self.raise_input_text = self.raise_input_text[:-1]
+                        
+                    else:
+                        # On vérifie que c'est bien un chiffre
+                        if event.unicode.isdigit():
+                            self.raise_input_text += event.unicode
+                            
+                        
+                        
+
 
             
             # --- 2. GESTION DU TEMPS ---
@@ -105,6 +160,21 @@ class Game(Settings):
             
             # --- C'est ici que tu dessineras les boutons et le pot ---
             self.draw_ui() # On appelle notre nouvelle fonction de dessin
+
+            # --- Dessin de la zone de saisie ---
+            if self.is_raising:
+                # Dessine la boîte de saisie
+                pygame.draw.rect(self.screen, self.input_box_color, self.raise_input_rect, 2) # Juste le contour
+                
+                # Prépare le texte à afficher
+                text_surface = self.small_font.render(self.raise_input_text, True, (255, 255, 255))
+                
+                # Affiche le texte (avec un petit padding)
+                self.screen.blit(text_surface, (self.raise_input_rect.x + 5, self.raise_input_rect.y + 5))
+                
+                # (Optionnel) Affiche un label
+                label = self.small_font.render("Montant:", True, (255, 255, 255))
+                self.screen.blit(label, (self.raise_input_rect.x - 80, self.raise_input_rect.y + 5))
             
             # Étape C: MONTRER
             pygame.display.update()

@@ -1,7 +1,7 @@
 import itertools
 import random
-from settings import *
-from card import Card
+from .settings import *
+from .card import Card
 
 class Deck():
 

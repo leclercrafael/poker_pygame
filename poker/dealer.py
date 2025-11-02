@@ -1,7 +1,7 @@
-from player import Player
-from card import Card
-from game_object import GameObject
-from deck import Deck
+from .player import Player
+from .card import Card
+from .game_object import GameObject
+from .deck import Deck
 
 class Dealer(GameObject):
 

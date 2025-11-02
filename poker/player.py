@@ -1,7 +1,7 @@
-from pot import Pot
-from flop import Flop
-from game_object import GameObject
-from card import Card
+from .pot import Pot
+from .flop import Flop
+from .game_object import GameObject
+from .card import Card
 
 class Player(GameObject):
 
@@ -11,11 +11,11 @@ class Player(GameObject):
         self._name = name
         self._stack = stack
         self.is_ia = is_ia
-
         self.main = []
         self.has_folded = False
         self.is_allin = False
         self.current_bet = 0
+        self
 
     def fold(self) -> None:
         """Player is folding"""
@@ -75,7 +75,7 @@ class Player(GameObject):
     
     def check(self) -> int :
         '''Player is checking'''
-        print(f"{self.name} checks")
+        print(f"{self._name} checks")
         return 0
     
 
@@ -96,6 +96,8 @@ class Player(GameObject):
             print(f"{self._name} wins {amount}!")
 
     def draw(self):
+        if self.has_folded :
+            return
 
         # On vérifie si les cartes ont bien été configurées (avec set_display)
         if not self.main:
