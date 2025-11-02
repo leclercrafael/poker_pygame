@@ -9,7 +9,9 @@ from .player import Player # <-- AJOUTER L'IMPORT DU JOUEUR
 D_POS = {
     "joueur_main": [[50, 500], [180, 500]], 
     "ia_main": [[50, 100], [180, 100]],
+    "flop" : [[500,300],[630,300],[760,300],[890,300],[1020,300]]
 }
+
 
 __name__ = "__main__"
 
@@ -44,6 +46,7 @@ class Game(Settings):
         for i, card in enumerate(self.joueur_ia.main):
             pos = D_POS["ia_main"][i]
             card.set_display(screen=self.screen, x=pos[0], y=pos[1], size=120)
+        
 
 
         #UI
@@ -68,6 +71,10 @@ class Game(Settings):
         self.small_font = pygame.font.SysFont('Arial', 24)
 
 
+
+        self.Flop = False
+
+
         try:
             self.font_bouton = pygame.font.SysFont('arial', 30, bold=True)
         except pygame.error:
@@ -86,6 +93,54 @@ class Game(Settings):
                 if event.type == pygame.MOUSEBUTTONDOWN:
 
                     if self.dealer.game_state == 'preflop' and self.dealer.current_player_index==0:
+                        if self.bouton_fold_rect.collidepoint(event.pos):
+                            print("CLIC SUR SE COUCHER !")
+                            self.joueur_humain.fold()
+
+                            #NOUVELLE MAIN À IMPLEMENTER
+                            
+                        elif self.bouton_check_rect.collidepoint(event.pos):
+                            self.joueur_humain.check()
+                            self.dealer.current_player_index = 1
+                            self.Flop = True
+                            
+                        elif self.bouton_raise_rect.collidepoint(event.pos):
+                            print("CLIC SUR MISER !")
+                            # On active le mode saisie !
+                            self.is_raising = True
+                            self.raise_input_text = "" # On réinitialise le texte
+                            self.input_box_color = self.color_active # On change la couleur
+
+                            self.dealer.current_player_index = 1
+                            
+                        # Pour l'instant on fait toujours commencer le joueur 1 i.e. le héros 
+                        # À implémenter plus tard une méthode pour faire commencer l'IA
+
+
+
+                if event.type == pygame.KEYDOWN and self.is_raising:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                        # L'utilisateur appuie sur ENTRÉE
+                        print(f"ACTION: RELANCE VALIDÉE de : {self.raise_input_text}")
+                        #
+                        # Appelez votre logique de jeu ici avec le montant
+                        self.joueur_humain.raise_bet(int(self.raise_input_text))
+                        #
+                        self.is_raising = False
+                        self.input_box_color = self.color_inactive
+                        
+                    elif event.key == pygame.K_BACKSPACE:
+                        # L'utilisateur appuie sur Retour Arrière
+                        self.raise_input_text = self.raise_input_text[:-1]
+                        
+                    else:
+                        # On vérifie que c'est bien un chiffre
+                        if event.unicode.isdigit():
+                            self.raise_input_text += event.unicode
+
+
+
+                if self.dealer.game_state == 'postflop' and self.dealer.current_player_index==0:
                         if self.bouton_fold_rect.collidepoint(event.pos):
                             print("CLIC SUR SE COUCHER !")
                             self.joueur_humain.fold()
@@ -146,6 +201,20 @@ class Game(Settings):
             
             # --- C'est ici que tu dessineras les boutons et le pot ---
             self.draw_ui() # On appelle notre nouvelle fonction de dessin
+
+
+            if self.Flop == True :
+                self.dealer.create_flop()
+                for i in range(3):
+                        c = self.dealer.reveal_flop()
+                        pos = D_POS["flop"][i] # Récupère la position [x, y]
+                        c.set_display(screen=self.screen, x=pos[0], y=pos[1], size=120)
+                        c.retourner() # On retourne les cartes du joueur
+
+                self.Flop = False
+
+                
+                
 
             # --- Dessin de la zone de saisie ---
             if self.is_raising:

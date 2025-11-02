@@ -8,13 +8,15 @@ class Dealer(GameObject):
     def __init__(self) -> None:
         super().__init__()
         self.deck = Deck()
-        self.players = []
+        self.players : list[Player]= []
         self.pot = 0
         self.maximum_bet = 0
-        self.flop = None
+        self.flop = []
         self.game_state = 'preflop'
         self.current_player_index=0
         self.betting_round_active = True
+        self.winning = None
+
     
     def add_player(self, player : Player) -> None:
         if player not in self.players:
@@ -23,7 +25,6 @@ class Dealer(GameObject):
     def nouvelle_main(self) -> None:
         self.pot = 0
         self.maximum_bet = 0
-        self.flop = None
         self.game_state = 'preflop'
 
         for player in self.players:
@@ -74,6 +75,33 @@ class Dealer(GameObject):
             self.maximum_bet = player.current_bet
 
         self.next_player_turn()
+
+    def player_win(self):
+        
+        self.winning = [self.current_player_index]
+
+    def create_flop(self) :
+        c = self.draw_card()
+        self.flop.append(c)
+        print("la carte est ", c)
+        self.flop.append(self.draw_card())
+        self.flop.append(self.draw_card())
+        self.flop.append(self.draw_card())
+        self.flop.append(self.draw_card())
+
+    
+    def reveal_flop(self):
+        c = self.flop.pop()
+        return (c)
+
+
+
+
+
+
+
+
+
 
 
 
