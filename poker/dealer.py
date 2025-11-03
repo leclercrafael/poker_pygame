@@ -11,11 +11,11 @@ class Dealer(GameObject):
         self.players : list[Player]= []
         self.pot = 0
         self.maximum_bet = 0
-        self.flop = []
+        self.flop : list[Card] = []
         self.game_state = 'preflop'
         self.current_player_index=0
         self.betting_round_active = True
-        self.winning = None
+        self.winning : int = 10000
 
     
     def add_player(self, player : Player) -> None:
@@ -38,12 +38,16 @@ class Dealer(GameObject):
         for _ in range(2):
             for player in self.players:
                 if not player.has_folded:
-                    card = self.draw_card()
-                    if card:
-                        player.receive_cards(card)
+                    if not self.deck.is_empty() :
+                        card = self.draw_card()
+                        if card:
+                            player.receive_cards(card)
+                    else: 
+                        print("Deck is empty")
 
 
     def player_action(self, action:str, amount=0) -> None:
+        """"""
 
         try:
             player = self.players[self.current_player_index]
@@ -74,25 +78,50 @@ class Dealer(GameObject):
             self.pot += bet_made
             self.maximum_bet = player.current_bet
 
-        self.next_player_turn()
+    
 
-    def player_win(self):
+    def player_win(self) -> None :
+        """Retain who wins"""
         
-        self.winning = [self.current_player_index]
+        self.winning = self.current_player_index
 
-    def create_flop(self) :
-        c = self.draw_card()
-        self.flop.append(c)
-        print("la carte est ", c)
-        self.flop.append(self.draw_card())
-        self.flop.append(self.draw_card())
-        self.flop.append(self.draw_card())
-        self.flop.append(self.draw_card())
+    def create_flop(self) -> None :
+        """Creating the flop"""
+
+        for i in range(5):
+            if not self.deck.is_empty():
+                c = self.draw_card()
+                self.flop.append(c)
+                print("la carte est ", c)
+            else : 
+                print("deck is empty")
+
+       
+        
+     
+    
+    def flop_draw(self, n : int ):
+        """Drawing on the figure the cards from the flop"""
+
+        if not self.flop:
+            return 
+
+        
+        for card in self.flop[:n]:
+            card.draw()
 
     
+        
+    
+
+
+
+    
+    """
     def reveal_flop(self):
         c = self.flop.pop()
         return (c)
+ """    
 
 
 

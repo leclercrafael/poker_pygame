@@ -36,6 +36,8 @@ class Game(Settings):
         # Lancement de la première main
         self.dealer.nouvelle_main() # Prépare le deck et les joueurs
         self.dealer.draw_new_hand() # Distribue 2 cartes logiques
+
+        self.dealer.create_flop()
     
         
         for i, card in enumerate(self.joueur_humain.main):
@@ -46,6 +48,16 @@ class Game(Settings):
         for i, card in enumerate(self.joueur_ia.main):
             pos = D_POS["ia_main"][i]
             card.set_display(screen=self.screen, x=pos[0], y=pos[1], size=120)
+        
+        for i, card in enumerate(self.dealer.flop):
+                pos = D_POS["flop"][i] # Récupère la position [x, y]
+                card.set_display(screen=self.screen, x=pos[0], y=pos[1], size=120)
+                card.retourner()
+        
+
+                
+        
+        
         
 
 
@@ -72,7 +84,7 @@ class Game(Settings):
 
 
 
-        self.Flop = False
+        self.Flop = 'flop'
 
 
         try:
@@ -102,7 +114,7 @@ class Game(Settings):
                         elif self.bouton_check_rect.collidepoint(event.pos):
                             self.joueur_humain.check()
                             self.dealer.current_player_index = 1
-                            self.Flop = True
+                            print("self.Flop",self.Flop)
                             
                         elif self.bouton_raise_rect.collidepoint(event.pos):
                             print("CLIC SUR MISER !")
@@ -165,36 +177,29 @@ class Game(Settings):
 
 
 
-                if event.type == pygame.KEYDOWN and self.is_raising:
-                    if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                        # L'utilisateur appuie sur ENTRÉE
-                        print(f"ACTION: RELANCE VALIDÉE de : {self.raise_input_text}")
-                        #
-                        # Appelez votre logique de jeu ici avec le montant
-                        self.joueur_humain.raise_bet(int(self.raise_input_text))
-                        #
-                        self.is_raising = False
-                        self.input_box_color = self.color_inactive
-                        
-                    elif event.key == pygame.K_BACKSPACE:
-                        # L'utilisateur appuie sur Retour Arrière
-                        self.raise_input_text = self.raise_input_text[:-1]
-                        
-                    else:
-                        # On vérifie que c'est bien un chiffre
-                        if event.unicode.isdigit():
-                            self.raise_input_text += event.unicode
-                            
+                
+            
+            
+      
                         
                         
-
+            
 
 
             self.delta_time = (pygame.time.get_ticks() - self.start_time) / 1000
             self.start_time = pygame.time.get_ticks()
             
             #Dessin
+            
             self.screen.fill(self.BG_COLOR)
+            if self.Flop == 'flop+2' :
+                self.dealer.flop_draw(5)
+            elif self.Flop == 'flop+1' :
+                self.dealer.flop_draw(4)
+            
+            elif self.Flop == 'flop' :
+                self.dealer.flop_draw(3)
+
             self.joueur_humain.draw()
             self.joueur_ia.draw()
             self.draw_ui() 
@@ -203,15 +208,12 @@ class Game(Settings):
             self.draw_ui() # On appelle notre nouvelle fonction de dessin
 
 
-            if self.Flop == True :
-                self.dealer.create_flop()
-                for i in range(3):
-                        c = self.dealer.reveal_flop()
-                        pos = D_POS["flop"][i] # Récupère la position [x, y]
-                        c.set_display(screen=self.screen, x=pos[0], y=pos[1], size=120)
-                        c.retourner() # On retourne les cartes du joueur
+            
 
-                self.Flop = False
+
+
+
+                
 
                 
                 

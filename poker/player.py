@@ -1,5 +1,4 @@
 from .pot import Pot
-from .flop import Flop
 from .game_object import GameObject
 from .card import Card
 
@@ -11,7 +10,7 @@ class Player(GameObject):
         self._name = name
         self._stack = stack
         self.is_ia = is_ia
-        self.main = []
+        self.main : list[Card] = []
         self.has_folded = False
         self.is_allin = False
         self.current_bet = 0
@@ -55,7 +54,7 @@ class Player(GameObject):
         bet_made = amount_to_add 
         self.current_bet += amount_to_add 
         print(f"{self._name} relance de {amount_to_add} (total {self.current_bet}).")
-        return bet_made #On ne renvoit que la valeur que le joueur ajoute réellement au pot pour calculer la valeur du pot
+        return bet_made 
     
     def call_bet(self, amount : int) -> int :
         '''Player is calling an other one'''
@@ -80,6 +79,7 @@ class Player(GameObject):
     
 
     def receive_cards(self, card : Card) -> None :
+        """Add card to the hand"""
         if len(self.main)<2:
             self.main.append(card)
 
@@ -91,18 +91,24 @@ class Player(GameObject):
         self.is_allin = False
 
     def collect_winnings(self, amount : int) -> None:
+        """Collect the chips after winning and add them to the stack"""
         if amount > 0:
             self._stack += amount
             print(f"{self._name} wins {amount}!")
 
-    def draw(self):
+    def draw(self) -> None:
+        """Draw the cards"""
         if self.has_folded :
             return
 
-        # On vérifie si les cartes ont bien été configurées (avec set_display)
+        # Checking if the cards where configurated with set_display
         if not self.main:
-            return # Ne rien dessiner si la main est vide
+            return 
 
-        # On parcourt les cartes du joueur et on leur demande de se dessiner
+        # Drawing the cards
         for card in self.main:
             card.draw()
+    
+    def random_ia(self) -> None :
+        """Decision tree of the player IA"""
+
