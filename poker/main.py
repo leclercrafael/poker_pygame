@@ -1,4 +1,3 @@
-
 from .settings import Settings
 import ctypes, pygame, sys
 # from card import Card # Plus besoin d'importer Card ici
@@ -109,11 +108,14 @@ class Game(Settings):
                             print("CLIC SUR SE COUCHER !")
                             self.joueur_humain.fold()
 
+
                             #NOUVELLE MAIN À IMPLEMENTER
                             
                         elif self.bouton_check_rect.collidepoint(event.pos):
                             self.joueur_humain.check()
                             self.dealer.current_player_index = 1
+                            
+
                             print("self.Flop",self.Flop)
                             
                         elif self.bouton_raise_rect.collidepoint(event.pos):
@@ -151,29 +153,8 @@ class Game(Settings):
                             self.raise_input_text += event.unicode
 
 
-
-                if self.dealer.game_state == 'postflop' and self.dealer.current_player_index==0:
-                        if self.bouton_fold_rect.collidepoint(event.pos):
-                            print("CLIC SUR SE COUCHER !")
-                            self.joueur_humain.fold()
-
-                            #NOUVELLE MAIN À IMPLEMENTER
-                            
-                        elif self.bouton_check_rect.collidepoint(event.pos):
-                            self.joueur_humain.check()
-                            self.dealer.current_player_index = 1
-                            
-                        elif self.bouton_raise_rect.collidepoint(event.pos):
-                            print("CLIC SUR MISER !")
-                            # On active le mode saisie !
-                            self.is_raising = True
-                            self.raise_input_text = "" # On réinitialise le texte
-                            self.input_box_color = self.color_active # On change la couleur
-
-                            self.dealer.current_player_index = 1
-                            
-                        # Pour l'instant on fait toujours commencer le joueur 1 i.e. le héros 
-                        # À implémenter plus tard une méthode pour faire commencer l'IA
+            if self.dealer.current_player_index == 1 :
+                
 
 
 
@@ -196,12 +177,14 @@ class Game(Settings):
                 self.dealer.flop_draw(5)
             elif self.Flop == 'flop+1' :
                 self.dealer.flop_draw(4)
-            
             elif self.Flop == 'flop' :
                 self.dealer.flop_draw(3)
 
-            self.joueur_humain.draw()
-            self.joueur_ia.draw()
+
+            if not self.joueur_humain.has_folded:
+                self.joueur_humain.draw()
+            if not self.joueur_ia.has_folded :
+                self.joueur_ia.draw()
             self.draw_ui() 
             
             # --- C'est ici que tu dessineras les boutons et le pot ---
