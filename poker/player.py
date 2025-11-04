@@ -1,8 +1,7 @@
-from .pot import Pot
-from .game_object import GameObject
-from .card import Card
-import numpy as np
-
+from pot import Pot
+from flop import Flop
+from game_object import GameObject
+from card import Card
 
 class Player(GameObject):
 
@@ -110,32 +109,3 @@ class Player(GameObject):
         # Drawing the cards
         for card in self.main:
             card.draw()
-    
-    def random_ia(self, amount : int ) -> None :
-        """Decision tree of the player IA"""
-
-        #decision = np.random.randint(0,3)
-        decision = 2
-        print(decision)
-        if decision == 0 :
-            self.fold()
-        elif decision == 1 and amount == 0 :
-            self.check()
-        elif decision == 1 and amount != 0 :
-            self.call_bet(amount)
-        elif decision == 2 and amount == 0 : 
-            self._raise = np.random.randint(1,self._stack)
-            self.raise_bet(self._raise)
-        elif decision == 2 and amount != 0 : 
-            self._raise = np.random.randint(1,self._stack)
-            if self._raise <= amount :
-                self.call_bet(self._raise)
-            else :
-                self.raise_bet(self._raise)
-            
-        
-
-        
-
-
-

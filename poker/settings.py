@@ -16,6 +16,9 @@ class Settings():
     self.P2_C1 = (1900, (HEIGHT/2))
     self.P2_C2 = (1920, (HEIGHT/2))
 
+    self.SMALL_BLIND = 10
+    self.BIG_BLIND = 20
+
 
     self.value_dict = {
       'T': 10,

@@ -1,7 +1,7 @@
 import itertools
 import random
-from .settings import *
-from .card import Card
+from settings import *
+from card import Card
 
 class Deck():
 
@@ -23,9 +23,11 @@ class Deck():
         return(len(self.cartes) == 0)
         
 
-    def draw_card(self) -> Card  : 
-        """Draw the top card of the deck"""
-        return (self.cartes.pop())
-        
+    def draw_card(self) -> Card : 
+        if not self.is_empty(): # Ajoute cette vérification
+            return self.cartes.pop()
+        else:
+            print("Erreur : Le deck est vide, impossible de tirer.")
+            return None # Retourne None si c'est vide
 
 
